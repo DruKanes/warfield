@@ -1,0 +1,100 @@
+fileFormatVersion: 1
+guid: 6f19486eab4cfc146936e684982157c1
+ModelImporter:
+  importerVersion: 7
+  meshes:
+    scaleFactor: 0.1
+    useFileUnits: 1
+    meshCompression: 0
+    generateColliders: 0
+    swapUVs: 0
+  tangentSpace:
+    normalImportMode: 0
+    tangentImportMode: 1
+    smoothingAngle: 60
+    splitTangents: 1
+  materials:
+    generation: 1
+  animations:
+    generation: 3
+    bakeAnimations: 0
+    animationCompression: 1
+    animationWrapMode: 0
+    splitAnimations: 1
+  nodeInfo:
+    BARREL01:
+    - 100000
+    - 400000
+    - 3300000
+    - 2300000
+    HOUSECOLOR:
+    - 100002
+    - 400002
+    - 3300002
+    - 2300002
+    HOUSECOLO1:
+    - 100004
+    - 400004
+    - 3300004
+    - 2300004
+    TREADSR01:
+    - 100006
+    - 400006
+    - 3300006
+    - 2300006
+    RELAYBASE:
+    - 100008
+    - 400008
+    - 3300008
+    - 2300008
+    RELAY:
+    - 100010
+    - 400010
+    - 3300010
+    - 2300010
+    PLANE01:
+    - 100012
+    - 400012
+    - 3300012
+    - 2300012
+    HOUSECOLO0:
+    - 100014
+    - 400014
+    - 3300014
+    - 2300014
+    TREADSL01:
+    - 100016
+    - 400016
+    - 3300016
+    - 2300016
+    TURRETEL:
+    - 100018
+    - 400018
+    - 3300018
+    - 2300018
+    //RootNode:
+    - 100020
+    - 400020
+    - 3300020
+    - 2300020
+    - 11100000
+    TURRET01:
+    - 100022
+    - 400022
+    - 3300022
+    - 2300022
+AssetImporter:
+  importerVersion: 1
+  fileIDToRecycleName:
+    4300000: CHASSIS
+    4300002: TURRET01
+    4300004: TURRETEL
+    4300006: BARREL01
+    4300008: PLANE01
+    4300010: RELAYBASE
+    4300012: RELAY
+    4300014: HOUSECOLOR
+    4300016: TREADSR01
+    4300018: TREADSL01
+    4300020: HOUSECOLO0
+    4300022: HOUSECOLO1

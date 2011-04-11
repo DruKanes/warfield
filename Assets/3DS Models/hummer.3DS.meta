@@ -1,0 +1,88 @@
+fileFormatVersion: 1
+guid: a611ee23f0fe79446a6d02e04f3c5a45
+ModelImporter:
+  importerVersion: 7
+  meshes:
+    scaleFactor: 0.1
+    useFileUnits: 1
+    meshCompression: 0
+    generateColliders: 0
+    swapUVs: 0
+  tangentSpace:
+    normalImportMode: 0
+    tangentImportMode: 1
+    smoothingAngle: 60
+    splitTangents: 1
+  materials:
+    generation: 1
+  animations:
+    generation: 3
+    bakeAnimations: 0
+    animationCompression: 1
+    animationWrapMode: 0
+    splitAnimations: 1
+  nodeInfo:
+    HOUSECOLO0:
+    - 100000
+    - 400000
+    - 3300000
+    - 2300000
+    TOW01:
+    - 100002
+    - 400002
+    - 3300002
+    - 2300002
+    TURRETEL:
+    - 100004
+    - 400004
+    - 3300004
+    - 2300004
+    TURRET:
+    - 100006
+    - 400006
+    - 3300006
+    - 2300006
+    HOUSECOLOR:
+    - 100008
+    - 400008
+    - 3300008
+    - 2300008
+    TIRE04:
+    - 100010
+    - 400010
+    - 3300010
+    - 2300010
+    TIRE03:
+    - 100012
+    - 400012
+    - 3300012
+    - 2300012
+    TIRE01:
+    - 100014
+    - 400014
+    - 3300014
+    - 2300014
+    TIRE02:
+    - 100016
+    - 400016
+    - 3300016
+    - 2300016
+    //RootNode:
+    - 100018
+    - 400018
+    - 3300018
+    - 2300018
+    - 11100000
+AssetImporter:
+  importerVersion: 1
+  fileIDToRecycleName:
+    4300000: CHASSIS
+    4300002: TIRE02
+    4300004: TIRE01
+    4300006: TIRE03
+    4300008: TIRE04
+    4300010: HOUSECOLOR
+    4300012: TURRET
+    4300014: TURRETEL
+    4300016: TOW01
+    4300018: HOUSECOLO0

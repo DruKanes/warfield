@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{F042DA2A-954A-1521-1145-51A6F9E22C75}") = "Warfield", "Warfield.csproj", "{59F1D1CE-8987-1F93-D6B8-2D2702D89CCA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59F1D1CE-8987-1F93-D6B8-2D2702D89CCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59F1D1CE-8987-1F93-D6B8-2D2702D89CCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59F1D1CE-8987-1F93-D6B8-2D2702D89CCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59F1D1CE-8987-1F93-D6B8-2D2702D89CCA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	
+EndGlobal

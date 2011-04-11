@@ -1,0 +1,118 @@
+fileFormatVersion: 1
+guid: 95a9ac1aa1b79734fa64945c024858d5
+ModelImporter:
+  importerVersion: 7
+  meshes:
+    scaleFactor: 0.1
+    useFileUnits: 1
+    meshCompression: 0
+    generateColliders: 0
+    swapUVs: 0
+  tangentSpace:
+    normalImportMode: 0
+    tangentImportMode: 1
+    smoothingAngle: 60
+    splitTangents: 1
+  materials:
+    generation: 1
+  animations:
+    generation: 3
+    bakeAnimations: 0
+    animationCompression: 1
+    animationWrapMode: 0
+    splitAnimations: 1
+  nodeInfo:
+    BOX04:
+    - 100000
+    - 400000
+    - 3300000
+    - 2300000
+    HOUSECOLO0:
+    - 100002
+    - 400002
+    - 3300002
+    - 2300002
+    OBJECT05:
+    - 100004
+    - 400004
+    - 3300004
+    - 2300004
+    BOX02:
+    - 100006
+    - 400006
+    - 3300006
+    - 2300006
+    OBJECT01:
+    - 100008
+    - 400008
+    - 3300008
+    - 2300008
+    OBJECT02:
+    - 100010
+    - 400010
+    - 3300010
+    - 2300010
+    OBJECT04:
+    - 100012
+    - 400012
+    - 3300012
+    - 2300012
+    OBJECT03:
+    - 100014
+    - 400014
+    - 3300014
+    - 2300014
+    TREADSL01:
+    - 100016
+    - 400016
+    - 3300016
+    - 2300016
+    TREADSR01:
+    - 100018
+    - 400018
+    - 3300018
+    - 2300018
+    HOUSECOLOR:
+    - 100020
+    - 400020
+    - 3300020
+    - 2300020
+    BARREL:
+    - 100022
+    - 400022
+    - 3300022
+    - 2300022
+    TURRETEL:
+    - 100024
+    - 400024
+    - 3300024
+    - 2300024
+    TURRET:
+    - 100026
+    - 400026
+    - 3300026
+    - 2300026
+    //RootNode:
+    - 100028
+    - 400028
+    - 3300028
+    - 2300028
+    - 11100000
+AssetImporter:
+  importerVersion: 1
+  fileIDToRecycleName:
+    4300000: BOX01
+    4300002: TURRET
+    4300004: TURRETEL
+    4300006: BARREL
+    4300008: HOUSECOLOR
+    4300010: TREADSR01
+    4300012: TREADSL01
+    4300014: OBJECT03
+    4300016: OBJECT04
+    4300018: OBJECT02
+    4300020: OBJECT01
+    4300022: BOX02
+    4300024: OBJECT05
+    4300026: HOUSECOLO0
+    4300028: BOX04

@@ -1,0 +1,130 @@
+fileFormatVersion: 1
+guid: fe4fec6e3bd81d549b90f64cf73ea408
+ModelImporter:
+  importerVersion: 7
+  meshes:
+    scaleFactor: 0.1
+    useFileUnits: 1
+    meshCompression: 0
+    generateColliders: 0
+    swapUVs: 0
+  tangentSpace:
+    normalImportMode: 0
+    tangentImportMode: 1
+    smoothingAngle: 60
+    splitTangents: 1
+  materials:
+    generation: 1
+  animations:
+    generation: 3
+    bakeAnimations: 0
+    animationCompression: 1
+    animationWrapMode: 0
+    splitAnimations: 1
+  nodeInfo:
+    TURRETEL:
+    - 100000
+    - 400000
+    - 3300000
+    - 2300000
+    TURRETGUAR:
+    - 100002
+    - 400002
+    - 3300002
+    - 2300002
+    TREADFX04:
+    - 100004
+    - 400004
+    - 3300004
+    - 2300004
+    HOUSECOLOR:
+    - 100006
+    - 400006
+    - 3300006
+    - 2300006
+    TREADSR01:
+    - 100008
+    - 400008
+    - 3300008
+    - 2300008
+    TURRET01:
+    - 100010
+    - 400010
+    - 3300010
+    - 2300010
+    TURRET02:
+    - 100012
+    - 400012
+    - 3300012
+    - 2300012
+    TURRETSEE0:
+    - 100014
+    - 400014
+    - 3300014
+    - 2300014
+    TREADFX02:
+    - 100016
+    - 400016
+    - 3300016
+    - 2300016
+    TREADSL01:
+    - 100018
+    - 400018
+    - 3300018
+    - 2300018
+    HOUSECOLO0:
+    - 100020
+    - 400020
+    - 3300020
+    - 2300020
+    CORD01:
+    - 100022
+    - 400022
+    - 3300022
+    - 2300022
+    TREADFX01:
+    - 100024
+    - 400024
+    - 3300024
+    - 2300024
+    TREADFX03:
+    - 100026
+    - 400026
+    - 3300026
+    - 2300026
+    TURRETSEE1:
+    - 100028
+    - 400028
+    - 3300028
+    - 2300028
+    BARREL01:
+    - 100030
+    - 400030
+    - 3300030
+    - 2300030
+    //RootNode:
+    - 100032
+    - 400032
+    - 3300032
+    - 2300032
+    - 11100000
+AssetImporter:
+  importerVersion: 1
+  fileIDToRecycleName:
+    4300000: CHASSIS
+    4300002: HOUSECOLOR
+    4300004: TREADSR01
+    4300006: HOUSECOLO0
+    4300008: TREADSL01
+    4300010: TREADFX01
+    4300012: TREADFX02
+    4300014: TREADFX03
+    4300016: TREADFX04
+    4300018: TURRET01
+    4300020: TURRETSEE0
+    4300022: TURRETSEE1
+    4300024: CORD01
+    4300026: TURRETGUAR
+    4300028: TURRETEL
+    4300030: BARREL01
+    4300032: TURRET02
