@@ -14,19 +14,45 @@ public class CameraControl : MonoBehaviour
     public int edgeBuffer;
     public int screenMoveRate;
 
+    //zoom camera
+    public float zoomRate;
+    public int zoomLimit;
+    public float zoomOriginal;
+
+
     // Use this for initialization
     void Start()
     {
-
+        zoomOriginal = Camera.mainCamera.fieldOfView;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //check for user input on the following functions
+        MoveCamera(); //execute any movement that needs to be done on the camera
+        ZoomCamera(); //zooms the camera in/out
+    }
+
+    /// <summary>
+    /// Zooms the camera in/out
+    /// </summary>
+    private void ZoomCamera()
+    {
+        float scrollVal = Input.GetAxis("Mouse ScrollWheel");
+        if (Camera.mainCamera.fieldOfView-scrollVal*zoomRate >= zoomLimit && Camera.mainCamera.fieldOfView-scrollVal*zoomRate <= zoomOriginal)
+            Camera.mainCamera.fieldOfView -= scrollVal * zoomRate;
+    }
+
+    /// <summary>
+    /// Executes all movement of the camera
+    /// </summary>
+    private void MoveCamera()
+    {
         //move the camera if arrow keys are pressed
         float horizontalVal = Input.GetAxis("Horizontal");
         float verticalVal = Input.GetAxis("Vertical");
-        transform.Translate(new Vector3(screenMoveRate * horizontalVal,0, screenMoveRate*verticalVal) * Time.deltaTime);
+        transform.Translate(new Vector3(screenMoveRate * horizontalVal, 0, screenMoveRate * verticalVal) * Time.deltaTime);
 
         //move camera as long as mouse is at edge of screen
         if (CursorAtEdge())
