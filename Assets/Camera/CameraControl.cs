@@ -3,12 +3,16 @@ using System.Collections;
 
 public class CameraControl : MonoBehaviour
 {
-    private Transform tower;
+    //cursor icons
     private Rect buildCursor; //position of the cursor when in build mode
-
-    //public objects attatched by unity
     public Texture2D buildCursorTexture; //regular build cursor
     public Texture2D buildCursor2Texture; //highlighted build cursor
+
+    //edge of screen
+    private enum edgeState { LEFT, LEFT_UP, LEFT_DOWN, UP, DOWN, RIGHT, RIGHT_UP, RIGHT_DOWN  }
+    private edgeState EdgeState;
+    public int edgeBuffer;
+    public int screenMoveRate;
 
     // Use this for initialization
     void Start()
@@ -22,7 +26,91 @@ public class CameraControl : MonoBehaviour
         //move the camera if arrow keys are pressed
         float horizontalVal = Input.GetAxis("Horizontal");
         float verticalVal = Input.GetAxis("Vertical");
-        transform.Translate(new Vector3(100 * horizontalVal,0, 100*verticalVal) * Time.deltaTime);
+        transform.Translate(new Vector3(screenMoveRate * horizontalVal,0, screenMoveRate*verticalVal) * Time.deltaTime);
+
+        //move camera as long as mouse is at edge of screen
+        if (CursorAtEdge())
+        {
+            switch (EdgeState)
+            {
+                case edgeState.LEFT:
+                    transform.Translate(new Vector3(-screenMoveRate, 0, 0) * Time.deltaTime);
+                    break;
+                case edgeState.LEFT_UP:
+                    transform.Translate(new Vector3(-screenMoveRate, 0, screenMoveRate) * Time.deltaTime);
+                    break;
+                case edgeState.LEFT_DOWN:
+                    transform.Translate(new Vector3(-screenMoveRate, 0, -screenMoveRate) * Time.deltaTime);
+                    break;
+                case edgeState.UP:
+                    transform.Translate(new Vector3(0, 0, screenMoveRate) * Time.deltaTime);
+                    break;
+                case edgeState.DOWN:
+                    transform.Translate(new Vector3(0, 0, -screenMoveRate) * Time.deltaTime);
+                    break;
+                case edgeState.RIGHT:
+                    transform.Translate(new Vector3(screenMoveRate, 0, 0) * Time.deltaTime);
+                    break;
+                case edgeState.RIGHT_UP:
+                    transform.Translate(new Vector3(screenMoveRate, 0, screenMoveRate) * Time.deltaTime);
+                    break;
+                case edgeState.RIGHT_DOWN:
+                    transform.Translate(new Vector3(screenMoveRate, 0, -screenMoveRate) * Time.deltaTime);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Checks if the cursor is at the edge of the screen, if so then the EdgeState is updated
+    /// </summary>
+    private bool CursorAtEdge()
+    {
+        //NOTE (0,0) is the bottom left edge of the screen
+
+        //check if mouse is at the left edge of the screen
+        if (Input.mousePosition.x - edgeBuffer <= 0)
+        {
+            //check if at top or bottom of the screen as well
+            if (Input.mousePosition.y + edgeBuffer >= Screen.height)
+                EdgeState = edgeState.LEFT_UP;
+            else if (Input.mousePosition.y - edgeBuffer <= 0)
+                EdgeState = edgeState.LEFT_DOWN;
+            else
+                EdgeState = edgeState.LEFT;
+            return true;
+        }
+
+        //check if mouse is at the right edge of the screen
+        if (Input.mousePosition.x + edgeBuffer >= Screen.width)
+        {
+            //check if at top or bottom of the screen as well
+            if (Input.mousePosition.y + edgeBuffer >= Screen.height)
+                EdgeState = edgeState.RIGHT_UP;
+            else if (Input.mousePosition.y - edgeBuffer <= 0)
+                EdgeState = edgeState.RIGHT_DOWN;
+            else
+                EdgeState = edgeState.RIGHT;
+            return true;
+        }
+
+        //check if mouse is at the top edge of the screen
+        if (Input.mousePosition.y + edgeBuffer >= Screen.height)
+        {
+            EdgeState = edgeState.UP;
+            return true;
+        }
+
+        //check if mouse is at the bottom edge of the screen
+        if (Input.mousePosition.y - edgeBuffer <= 0)
+        {
+            EdgeState = edgeState.DOWN;
+            return true;
+        }
+
+        return false;        
     }
     
 
@@ -38,9 +126,9 @@ private void BuildState()
 float horizontalVal = Input.GetAxis("Horizontal" + player);
 float verticalVal = Input.GetAxis("Vertical" + player);
 if (horizontalVal > .25F || horizontalVal < -.25F)
-    cameraBuild.Translate(new Vector3(100 * horizontalVal, 0, 0) * Time.deltaTime);
+    cameraBuild.Translate(new Vector3(screenMoveRate * horizontalVal, 0, 0) * Time.deltaTime);
 if (verticalVal > .25F || verticalVal < -.25F)
-    cameraBuild.Translate(new Vector3(0, 0, 100 * verticalVal) * Time.deltaTime);
+    cameraBuild.Translate(new Vector3(0, 0, screenMoveRate * verticalVal) * Time.deltaTime);
 
 // Boundary
 if (cameraBuild.transform.position.x > maxX)
@@ -109,13 +197,13 @@ float horizontalVal = Input.GetAxis("Horizontal" + player);
 float verticalVal = Input.GetAxis("Vertical" + player);
 if (horizontalVal > .25F || horizontalVal < -.25F)
 {
-    cameraBuild.Translate(new Vector3(100 * horizontalVal, 0, 0) * Time.deltaTime);
-    tower.Translate(new Vector3(100 * horizontalVal, 0, 0) * Time.deltaTime); //move the tower with the camera
+    cameraBuild.Translate(new Vector3(screenMoveRate * horizontalVal, 0, 0) * Time.deltaTime);
+    tower.Translate(new Vector3(screenMoveRate * horizontalVal, 0, 0) * Time.deltaTime); //move the tower with the camera
 }
 if (verticalVal > .25F || verticalVal < -.25F)
 {
-    cameraBuild.Translate(new Vector3(0, 0, 100 * verticalVal) * Time.deltaTime);
-    tower.Translate(new Vector3(0, 0, 100 * verticalVal) * Time.deltaTime); //move the tower with the camera
+    cameraBuild.Translate(new Vector3(0, 0, screenMoveRate * verticalVal) * Time.deltaTime);
+    tower.Translate(new Vector3(0, 0, screenMoveRate * verticalVal) * Time.deltaTime); //move the tower with the camera
 }
 
 //move tower location
