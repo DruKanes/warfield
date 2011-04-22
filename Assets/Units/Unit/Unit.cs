@@ -4,26 +4,10 @@ using System.Collections;
 public class Unit : MonoBehaviour
 {
     //unit specifications
+    public int MineralCost;
+    public int ManPowerCost;
+    public float MaxHealth;
     private float currentHealth;
-    public float CurrentHealth
-    {
-        get { return currentHealth; }
-        set { currentHealth = value; }
-    }
-
-    private float mineralCost;
-    public float MineralCost
-    {
-        get { return mineralCost; }
-        set { mineralCost = value; }
-    }
-
-    private float manPowerCost;
-    public float ManPowerCost
-    {
-        get { return manPowerCost; }
-        set { manPowerCost = value; }
-    }
 
 
     // Use this for initialization
@@ -38,6 +22,10 @@ public class Unit : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Checks to see if the requirements are met to create this building
+    /// </summary>
+    /// <returns>Returns true if requirements are met, false if a requirement is not met</returns>
     public bool RequirementsMet()
     {
         return true;

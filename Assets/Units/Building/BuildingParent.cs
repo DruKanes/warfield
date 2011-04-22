@@ -24,6 +24,9 @@ public class BuildingParent : MonoBehaviour
 
     public Transform[] Buildings; //list of all the buildings that can be built 
     public Transform userControl; //the UserControl object
+    public Transform UnitParent; 
+    private Transform unit;
+    private Transform building;
 
 
 
@@ -98,12 +101,13 @@ public class BuildingParent : MonoBehaviour
     /// Name of the building of whoms menu to open
     /// </summary>
     /// <param name="name">Name of the building</param>
-    public bool OpenBuildingMenu(string name)
+    public bool OpenBuildingMenu(Transform _building)
     {
+        building = _building;
         //find the requested building
         for (int i = 0; i < Buildings.Length; i++)
         {
-            if (name.Contains(Buildings[i].name)) //found the building
+            if (building.name.Contains(Buildings[i].name)) //found the building
             {
                 buildingNum = i;
                 StateGUI = stateGUI.OPEN;
@@ -160,8 +164,12 @@ public class BuildingParent : MonoBehaviour
                 }
 
                 //create unit
-                print("pressed " + BuildingStrings[buildingNum].ButtonStrings[i]);
-                return;
+                Transform _unit = UnitParent.GetComponent<UnitParent>().CreateUnit(BuildingStrings[buildingNum].ButtonStrings[i]);
+                if (_unit != null)
+                {
+                    unit = Instantiate(_unit, new Vector3(building.position.x, building.position.y, building.position.z - building.collider.bounds.extents.z), building.rotation) as Transform; //create the building
+                    return;
+                }
             }
 
             if (Input.GetKeyUp(KeyCode.Escape)) //escape button
