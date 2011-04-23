@@ -3,14 +3,19 @@ using System.Collections;
 
 public class Building : MonoBehaviour
 {
-    private enum state { DEFAULT, CREATE_UNIT }
-    private state State;
+    //private enum state { DEFAULT, CREATE_UNIT }
+    //private state State;
 
     //building specifications
     public int MineralCost;
     public int ManPowerCost;
     public float MaxHealth;
     private float currentHealth;
+    private Transform spawnPoint;
+    public Transform SpawnPoint
+    {
+        get { return spawnPoint; }
+    }
 
     //ghost effect
     private ArrayList renderList = new ArrayList(); //hold the render materials that will be used to create the transparent look when building
@@ -28,7 +33,10 @@ public class Building : MonoBehaviour
     void Awake()
     {
         //set states
-        State = state.DEFAULT;
+        //State = state.DEFAULT;
+
+        //set the spawn location for the units
+        spawnPoint = transform.FindChild("SpawnPoint");
 
         //initial creation of building
         validLocation = false;

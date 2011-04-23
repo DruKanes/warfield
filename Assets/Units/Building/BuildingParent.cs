@@ -156,10 +156,23 @@ public class BuildingParent : MonoBehaviour
         {
             if (GUI.Button(new Rect(menuButtonPos[i, 0], menuButtonPos[i, 1], menuButtonWidth, menuButtonHeight), BuildingStrings[buildingNum].ButtonStrings[i]))
             {
-                if (i == BuildingStrings[buildingNum].ButtonStrings.Length - 1) //cancel button pressed
+                if (BuildingStrings[buildingNum].ButtonStrings[i] == "Close") //cancel button pressed
                 {
                     StateGUI = stateGUI.DEFAULT;
                     userControl.GetComponent<UserControl>().EnterDefaultState();
+                    return;
+                }
+
+                if (BuildingStrings[buildingNum].ButtonStrings[i] == "Destroy") //destroy the building
+                {
+                    StateGUI = stateGUI.DEFAULT;
+                    userControl.GetComponent<UserControl>().EnterDefaultState();
+
+                    //give back 50% resources of the building
+                    PlayerData.manPower += building.GetComponent<Building>().ManPowerCost / 2;
+                    PlayerData.minerals += building.GetComponent<Building>().MineralCost / 2;
+
+                    Destroy(building.gameObject); //destroy the gameobject
                     return;
                 }
 
@@ -167,7 +180,9 @@ public class BuildingParent : MonoBehaviour
                 Transform _unit = UnitParent.GetComponent<UnitParent>().CreateUnit(BuildingStrings[buildingNum].ButtonStrings[i]);
                 if (_unit != null)
                 {
-                    unit = Instantiate(_unit, new Vector3(building.position.x, building.position.y, building.position.z - building.collider.bounds.extents.z), building.rotation) as Transform; //create the building
+                    unit = Instantiate(_unit) as Transform; //create the building
+                    unit.position = building.GetComponent<Building>().SpawnPoint.position;
+                    unit.rotation = building.rotation;
                     return;
                 }
             }
@@ -178,5 +193,13 @@ public class BuildingParent : MonoBehaviour
                 userControl.GetComponent<UserControl>().EnterDefaultState();
             }
         }
+    }
+
+    /// <summary>
+    /// Cancels current menu and brings screen back to default state
+    /// </summary>
+    public void EnterDefaultState()
+    {
+        StateGUI = stateGUI.DEFAULT;
     }
 }

@@ -30,6 +30,18 @@ public class UnitParent : MonoBehaviour
     {
         //set states
         StateGUI = stateGUI.DEFAULT;
+
+        //Menu initialization
+        menuWidth = 20 + 20 + menuButtonWidth;
+        menuHeight = 40 + (UnitStrings.Length * (menuButtonHeight + menuButtonBufferY));
+        menuPos[0] = Screen.width - menuWidth - 10;
+        menuPos[1] = Screen.height - menuHeight;
+        menuButtonPos = new int[UnitStrings.Length, 2];
+        for (int i = 0; i < UnitStrings.Length; i++)
+        {
+            menuButtonPos[i, 0] = menuPos[0] + menuButtonBufferX;
+            menuButtonPos[i, 1] = menuPos[1] + (i * menuButtonBufferY) + (i * menuButtonHeight) + menuButtonBufferX * 2;
+        }
     }
 
     // Update is called once per frame
@@ -103,14 +115,14 @@ public class UnitParent : MonoBehaviour
         //find the requested building
         for (int i = 0; i < Units.Length; i++)
         {
-            if (name.Contains(Units[i].name)) //found the unit
+            if (unit.name.Contains(Units[i].name)) //found the unit
             {
                 StateGUI = stateGUI.OPEN;
                 unitNum = i;
                 return true;
             }
         }
-
+        print(unit.name);
         print("INVALID UNIT NAME");
         return false;
     }
@@ -145,9 +157,7 @@ public class UnitParent : MonoBehaviour
                     userControl.GetComponent<UserControl>().EnterDefaultState();
                     return;
                 }
-            }
-
-         
+            }         
 
             if (Input.GetKeyUp(KeyCode.Escape)) //escape button
             {
@@ -155,5 +165,13 @@ public class UnitParent : MonoBehaviour
                 userControl.GetComponent<UserControl>().EnterDefaultState();
             }
         }
+    }
+
+    /// <summary>
+    /// Cancels current menu and brings screen back to default state
+    /// </summary>
+    public void EnterDefaultState()
+    {
+        StateGUI = stateGUI.DEFAULT;
     }
 }
