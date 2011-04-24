@@ -136,14 +136,14 @@ public class UnitParent : MonoBehaviour
         switch (StateGUI)
         {
             case stateGUI.OPEN:
-                BuildingMenuGUI();
+                UnitMenuGUI();
                 break;
             default:
                 break;
         }
     }
 
-    private void BuildingMenuGUI()
+    private void UnitMenuGUI()
     {
         GUI.Box(new Rect(menuPos[0], menuPos[1], menuWidth, menuHeight), Units[unitNum].name);
 

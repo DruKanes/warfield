@@ -185,9 +185,10 @@ public class BuildingParent : MonoBehaviour
                     Transform _unit = UnitParent.GetComponent<UnitParent>().CreateUnit(BuildingStrings[buildingNum].ButtonStrings[i]);
                     if (_unit != null)
                     {
-                        unit = Instantiate(_unit) as Transform; //create the building
+                        unit = Instantiate(_unit) as Transform; //create the unit
                         unit.GetComponent<Unit>().Building = building;
                         building.GetComponent<Building>().CreatedUnit(unit);
+                        PlayerData.unitCount++;
                         return;
                     }
                 }

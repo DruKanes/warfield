@@ -53,8 +53,7 @@ public class Building : MonoBehaviour
     void Awake()
     {
         //set states
-        State = state.BUILDING;
-        startBuildTime = Time.time;
+        State = state.DEFAULT;
 
         currentHealth = MaxHealth;
 
@@ -169,6 +168,9 @@ public class Building : MonoBehaviour
             }
         }
         RestoreColor();
+
+        State = state.BUILDING;
+        startBuildTime = Time.time;
     }
     
     /// <summary>

@@ -15,6 +15,15 @@ public class Unit : MonoBehaviour
     }
 
     //unit specifications
+    private Vector3 target;
+    public Vector3 Target
+    {
+        set { target = value; }
+    }
+    public float dist;
+    public float turnRot;
+    public float fence;
+    public float speed;
     public int MineralCost;
     public int ManPowerCost;
     public float MaxHealth;
@@ -86,9 +95,80 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public void EnterMovingState(Vector3 _target)
+    {
+        print(Time.time);
+        print(_target);
+        State = state.MOVING;
+        target = _target;
+    }
+
     private void MovingState()
     {
+        Vector3 fwd = transform.TransformDirection(Vector3.forward);
+        Vector3 lookDirection;
+        int key;
+        if (Physics.Raycast(transform.position, fwd, dist))
+        {
+            if (Physics.Raycast(transform.position, fwd + new Vector3(0, 45, 0), dist))
+            {
+                if (Physics.Raycast(transform.position, fwd - new Vector3(0, 45, 0), dist))
+                {
+                    if (Random.Range(1, 2) > 1.5F)
+                        key = 2;
+                    else key = 1;
 
+                    switch (key)
+                    {
+                        case 1: transform.Rotate(Vector3.up, turnRot); break;
+                        case 2: transform.Rotate(Vector3.up, -turnRot); break;
+                        default: break;
+                    }
+                }
+                else
+                {
+                    transform.Rotate(Vector3.up, turnRot);
+                }
+            }
+            else
+            {
+                if (Physics.Raycast(transform.position, fwd - new Vector3(0, 45, 0), dist))
+                {
+                    transform.Rotate(Vector3.up, -turnRot);
+                }
+                else
+                {
+                    if (Random.Range(1, 2) > 1.5F)
+                        key = 2;
+                    else key = 1;
+
+                    switch (key)
+                    {
+                        case 1: transform.Rotate(Vector3.up, turnRot); break;
+                        case 2: transform.Rotate(Vector3.up, -turnRot); break;
+                        default: break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (Vector3.Distance(target, transform.position) > fence) //keep moving forward
+            {
+                transform.position = transform.position + fwd * speed * Time.deltaTime;
+            }
+            else //reached destination
+            {
+                State = state.DEFAULT;
+            }
+
+            lookDirection = target - transform.position;
+
+            if (!Physics.Raycast(transform.position, lookDirection, dist))
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDirection.normalized), Time.deltaTime * 2);
+            }
+        }
     }
 
     private void DefaultState()
