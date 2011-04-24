@@ -65,8 +65,18 @@ public class Unit : MonoBehaviour
     void Start()
     {
         //place the unit next to the building it came from
-        transform.position = building.GetComponent<Building>().SpawnPoint.position;
-        Spawn();
+
+        /*
+        found = false;
+        unitRadius = collider.bounds.extents.x;
+        if (collider.bounds.extents.z < unitRadius)
+            unitRadius = collider.bounds.extents.z;
+        spawnPos = building.GetComponent<Building>().SpawnPoint.position;
+        bfs.Enqueue(spawnPos);
+        count = 0;
+        Spawn(); //find the spawn location
+        transform.position = spawnPos;
+         * */
     }
 
     // Update is called once per frame
@@ -189,27 +199,41 @@ public class Unit : MonoBehaviour
 
     private void Spawn()
     {
-        float radius = collider.bounds.extents.x;
-        if(collider.bounds.extents.z > radius)
-            radius = collider.bounds.extents.z;
+        /*
+        if (bfs.Count == 0 || found) //base case
+            return;
 
-        //check to see if your near any other units
-        
-        bool valid = true;
-        float start = System.DateTime.Now.Second;
-        do
+        //use breadth first search
+        Vector3 pos = (Vector3)bfs.Dequeue();
+        Collider[] colliders = Physics.OverlapSphere(pos, unitRadius);
+        foreach (Collider surrounding in colliders)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
-            foreach (Collider surrounding in colliders)
+            print(surrounding.tag);
+            if (surrounding.transform != transform && (surrounding.tag == "Building" || surrounding.tag == "Unit" || surrounding.tag == "Minerals")) //touching another unit or building
             {
-                if (surrounding.tag == "Building" || surrounding.tag == "Unit") //touching another unit or building
-                {
-                    print(Time.time + " hit another unit");
-                    valid = false;
-                    break;
-                }
+                found = false;
+                break;
             }
-        } while (!valid && System.DateTime.Now.Second - start < 0);        
+            found = true;
+        }
+        print(pos + " " + found);
+        if (found || colliders.Length == 0 || count > 10) //location found
+        {
+            print(pos + "entered");
+            spawnPos = pos;
+            return;
+        }
+
+        //location not found so add the 4 new locations to the queue
+        bfs.Enqueue(new Vector3(pos.x, pos.y, pos.z + (unitRadius * 2) + 1)); //top
+        bfs.Enqueue(new Vector3(pos.x - (unitRadius * 2) - 1, pos.y, pos.z)); //left
+        bfs.Enqueue(new Vector3(pos.x, pos.y, pos.z - (unitRadius * 2) - 1)); //bottom
+        bfs.Enqueue(new Vector3(pos.x + (unitRadius * 2) + 1, pos.y, pos.z)); //right
+
+        //recursivly check each one now
+        for (int i = 0; i < 4; i++)
+            Spawn(); //call each of the 4 pieces that were just added       
+         * */
     }
 
 

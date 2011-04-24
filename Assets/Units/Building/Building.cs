@@ -30,11 +30,14 @@ public class Building : MonoBehaviour
         get { return currentHealth; }
     }
 
+    //spawn locations
+    private Transform[] spawns;
     private Transform spawnPoint;
     public Transform SpawnPoint
     {
         get { return spawnPoint; }
     }
+    private int spawnsVal;
 
     //ghost effect
     private ArrayList renderList = new ArrayList(); //hold the render materials that will be used to create the transparent look when building
@@ -65,7 +68,11 @@ public class Building : MonoBehaviour
         currentHealth = MaxHealth;
 
         //set the spawn location for the units
-        spawnPoint = transform.FindChild("SpawnPoint");
+        spawnPoint = transform.FindChild("SpawnPoints");
+        spawns = new Transform[spawnPoint.GetChildCount()];
+        for (int i = 0; i < spawnPoint.GetChildCount(); i++)
+            spawns[i] = spawnPoint.GetChild(i);
+        spawnsVal = 0;
 
         //find / add render objects, used for creating transparent effect
         if (renderer != null)
@@ -119,6 +126,10 @@ public class Building : MonoBehaviour
             {
                 unit = (Transform)unitsQueue.Dequeue();
                 unit.gameObject.SetActiveRecursively(true);
+                unit.GetComponent<Unit>().transform.position = spawns[spawnsVal].position;
+                spawnsVal++;
+                if (spawnsVal >= spawns.Length)
+                    spawnsVal = 0;
                 unit.GetComponent<Unit>().EnterBuildingState();
             }
             else //nore more units to build
@@ -256,6 +267,10 @@ public class Building : MonoBehaviour
             State = state.CREATE_UNIT;
             unit = _unit;
             unit.gameObject.SetActiveRecursively(true);
+            unit.GetComponent<Unit>().transform.position = spawns[spawnsVal].position;
+            spawnsVal++;
+            if (spawnsVal >= spawns.Length)
+                spawnsVal = 0;
             unit.GetComponent<Unit>().EnterBuildingState();
         }
         else //unit is already being created
