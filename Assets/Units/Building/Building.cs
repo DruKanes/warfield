@@ -67,9 +67,6 @@ public class Building : MonoBehaviour
         //set the spawn location for the units
         spawnPoint = transform.FindChild("SpawnPoint");
 
-        //initial creation of building
-        validLocation = false;
-
         //find / add render objects, used for creating transparent effect
         if (renderer != null)
             renderList.Add(renderer);
@@ -80,6 +77,8 @@ public class Building : MonoBehaviour
         originalColor = new Color[renderArray.Length];
         for(int i=0; i<renderArray.Length; i++)
             originalColor[i] = renderArray[i].material.color;
+
+        SetInValidLocation();
     }
 
     // Update is called once per frame
