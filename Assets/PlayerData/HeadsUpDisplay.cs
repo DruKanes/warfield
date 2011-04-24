@@ -25,6 +25,10 @@ public class HeadsUpDisplay : MonoBehaviour
     
     private Transform building;
     private Transform unit;
+    public Transform Unit
+    {
+        set { unit = value; }
+    }
     private int groupUnitCount;
 
     // Use this for initialization

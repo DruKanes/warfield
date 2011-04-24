@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Unit : MonoBehaviour
 {
-    public enum state { BUILDING, MOVING, DEFAULT }
+    public enum state { NONE, BUILDING, MOVING, DEFAULT }
     public state State;
 
     //initial building progress
@@ -45,11 +45,10 @@ public class Unit : MonoBehaviour
     private Color[] originalColor;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         //set States
-        State = state.BUILDING;
-        startBuildTime = Time.time;
+        State = state.NONE;
 
         currentHealth = MaxHealth;
 
@@ -60,6 +59,11 @@ public class Unit : MonoBehaviour
         renderArray = (Renderer[])renderList.ToArray(typeof(Renderer));
         EnableTransparentEffect();
 
+        gameObject.SetActiveRecursively(false);
+    }
+
+    void Start()
+    {
         //place the unit next to the building it came from
         transform.position = building.GetComponent<Building>().SpawnPoint.position;
         Spawn();
@@ -97,8 +101,6 @@ public class Unit : MonoBehaviour
 
     public void EnterMovingState(Vector3 _target)
     {
-        print(Time.time);
-        print(_target);
         State = state.MOVING;
         target = _target;
     }
@@ -230,7 +232,7 @@ public class Unit : MonoBehaviour
     /// <returns>True if the unit is built, false if the unit is still being created</returns>
     public bool IsBuilt()
     {
-        if (State == state.BUILDING)
+        if (State == state.BUILDING || State == state.NONE)
             return false;
 
         return true;
@@ -283,5 +285,14 @@ public class Unit : MonoBehaviour
                 material.color = new Color(material.color.r, material.color.g, material.color.b, 1F);
             }
         }
+    }
+
+    /// <summary>
+    /// Called when the unit is up for creation
+    /// </summary>
+    public void EnterBuildingState()
+    {
+        startBuildTime = Time.time;
+        State = state.BUILDING;
     }
 }

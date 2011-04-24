@@ -29,8 +29,6 @@ public class BuildingParent : MonoBehaviour
     private Transform unit;
     private Transform building;
 
-
-
     // Use this for initialization
     void Start()
     {

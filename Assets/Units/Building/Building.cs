@@ -9,7 +9,6 @@ public class Building : MonoBehaviour
     private Transform unit;
     public Transform Unit
     {
-        set { unit = value; }
         get { return unit; }
     }
 
@@ -47,6 +46,14 @@ public class Building : MonoBehaviour
     public bool ValidLocation
     {
         get { return validLocation; }
+    }
+
+    //create unit variables
+    private Queue unitsQueue = new Queue();
+    public Queue UnitsQueue
+    {
+        get { return unitsQueue; }
+        set { unitsQueue = value; }
     }
 
     // Use this for initialization
@@ -108,7 +115,18 @@ public class Building : MonoBehaviour
     private void CreateUnitState()
     {
         if (unit.GetComponent<Unit>().IsBuilt())
-            State = state.DEFAULT;
+        {
+            if (unitsQueue.Count > 0)
+            {
+                unit = (Transform)unitsQueue.Dequeue();
+                unit.gameObject.SetActiveRecursively(true);
+                unit.GetComponent<Unit>().EnterBuildingState();
+            }
+            else //nore more units to build
+            {
+                State = state.DEFAULT;
+            }
+        }
     }
 
     /// <summary>
@@ -234,7 +252,16 @@ public class Building : MonoBehaviour
     /// <param name="_unit">The unit that was created</param>
     public void CreatedUnit(Transform _unit)
     {
-        State = state.CREATE_UNIT;
-        unit = _unit;
+        if (State != state.CREATE_UNIT) //unit is not already being created
+        {
+            State = state.CREATE_UNIT;
+            unit = _unit;
+            unit.gameObject.SetActiveRecursively(true);
+            unit.GetComponent<Unit>().EnterBuildingState();
+        }
+        else //unit is already being created
+        {
+            unitsQueue.Enqueue(_unit);
+        }
     }
 }
