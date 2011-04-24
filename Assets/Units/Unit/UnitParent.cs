@@ -20,6 +20,7 @@ public class UnitParent : MonoBehaviour
 
     public Transform[] Units; //list of all the buildings that can be built 
     public Transform userControl; //the UserControl object
+    public Transform hud; //the heads up display object
 
     private Transform unit;
 
@@ -155,6 +156,7 @@ public class UnitParent : MonoBehaviour
                 {
                     StateGUI = stateGUI.DEFAULT;
                     userControl.GetComponent<UserControl>().EnterDefaultState();
+                    hud.GetComponent<HeadsUpDisplay>().EnterDefaultState();
                     return;
                 }
             }         
@@ -163,6 +165,7 @@ public class UnitParent : MonoBehaviour
             {
                 StateGUI = stateGUI.DEFAULT;
                 userControl.GetComponent<UserControl>().EnterDefaultState();
+                hud.GetComponent<HeadsUpDisplay>().EnterDefaultState();
             }
         }
     }

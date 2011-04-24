@@ -3,14 +3,34 @@ using System.Collections;
 
 public class Building : MonoBehaviour
 {
-    //private enum state { DEFAULT, CREATE_UNIT }
-    //private state State;
+    public enum state { DEFAULT, CREATE_UNIT, BUILDING }
+    public state State;
+
+    private Transform unit;
+    public Transform Unit
+    {
+        set { unit = value; }
+        get { return unit; }
+    }
+
+    //initial building progress
+    public int BuildTime;
+    private float startBuildTime;
+    public float StartBuildTime
+    {
+        get { return startBuildTime; }
+    }
 
     //building specifications
     public int MineralCost;
     public int ManPowerCost;
     public float MaxHealth;
     private float currentHealth;
+    public float CurrentHealth
+    {
+        get { return currentHealth; }
+    }
+
     private Transform spawnPoint;
     public Transform SpawnPoint
     {
@@ -33,7 +53,10 @@ public class Building : MonoBehaviour
     void Awake()
     {
         //set states
-        //State = state.DEFAULT;
+        State = state.BUILDING;
+        startBuildTime = Time.time;
+
+        currentHealth = MaxHealth;
 
         //set the spawn location for the units
         spawnPoint = transform.FindChild("SpawnPoint");
@@ -56,7 +79,37 @@ public class Building : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        switch (State)
+        {
+            case state.DEFAULT:
+                DefaultState();
+                break;
+            case state.BUILDING:
+                BuildingState();
+                break;
+            case state.CREATE_UNIT:
+                CreateUnitState();
+                break;
+            default:
+                break;
+        }
+    }
 
+    private void DefaultState()
+    {
+
+    }
+
+    private void BuildingState()
+    {
+        if (Time.time - startBuildTime > BuildTime)
+            State = state.DEFAULT;
+    }
+
+    private void CreateUnitState()
+    {
+        if (unit.GetComponent<Unit>().IsBuilt())
+            State = state.DEFAULT;
     }
 
     /// <summary>
@@ -74,7 +127,7 @@ public class Building : MonoBehaviour
     /// <param name="_transform">Current Transform object</param>
     private void GetRenderObjects(Transform _transform)
     {
-        if (_transform == null)
+        if (_transform == null) //base case
             return;
 
         foreach (Transform child in _transform) //check all children for render objects
@@ -159,5 +212,27 @@ public class Building : MonoBehaviour
     {
         validLocation = false;
         ChangeColor(Color.red);
+    }
+
+    /// <summary>
+    /// Returns the status of the building
+    /// </summary>
+    /// <returns>True if the building is built, false if the building is still being created</returns>
+    public bool IsBuilt()
+    {
+        if (State == state.BUILDING)
+            return false;
+
+        return true;
+    }
+
+    /// <summary>
+    /// Signals the building that a unit has been created by this building
+    /// </summary>
+    /// <param name="_unit">The unit that was created</param>
+    public void CreatedUnit(Transform _unit)
+    {
+        State = state.CREATE_UNIT;
+        unit = _unit;
     }
 }

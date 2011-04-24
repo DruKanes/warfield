@@ -24,6 +24,7 @@ public class BuildingParent : MonoBehaviour
 
     public Transform[] Buildings; //list of all the buildings that can be built 
     public Transform userControl; //the UserControl object
+    public Transform hud; //heads up display object
     public Transform UnitParent; 
     private Transform unit;
     private Transform building;
@@ -151,46 +152,92 @@ public class BuildingParent : MonoBehaviour
     {
         GUI.Box(new Rect(menuPos[0], menuPos[1], menuWidth, menuHeight), Buildings[buildingNum].name);
 
-        //draw all the build buttons
-        for (int i = 0; i < BuildingStrings[buildingNum].ButtonStrings.Length; i++)
+        if (building.GetComponent<Building>().IsBuilt()) //done building, can create units
         {
-            if (GUI.Button(new Rect(menuButtonPos[i, 0], menuButtonPos[i, 1], menuButtonWidth, menuButtonHeight), BuildingStrings[buildingNum].ButtonStrings[i]))
+            //draw all the build buttons
+            for (int i = 0; i < BuildingStrings[buildingNum].ButtonStrings.Length; i++)
             {
-                if (BuildingStrings[buildingNum].ButtonStrings[i] == "Close") //cancel button pressed
+                if (GUI.Button(new Rect(menuButtonPos[i, 0], menuButtonPos[i, 1], menuButtonWidth, menuButtonHeight), BuildingStrings[buildingNum].ButtonStrings[i]))
+                {
+                    if (BuildingStrings[buildingNum].ButtonStrings[i] == "Close") //cancel button pressed
+                    {
+                        StateGUI = stateGUI.DEFAULT;
+                        userControl.GetComponent<UserControl>().EnterDefaultState();
+                        hud.GetComponent<HeadsUpDisplay>().EnterDefaultState();
+                        return;
+                    }
+
+                    if (BuildingStrings[buildingNum].ButtonStrings[i] == "Destroy") //destroy the building
+                    {
+                        StateGUI = stateGUI.DEFAULT;
+                        userControl.GetComponent<UserControl>().EnterDefaultState();
+                        hud.GetComponent<HeadsUpDisplay>().EnterDefaultState();
+
+                        //give back 50% resources of the building
+                        PlayerData.manPower += building.GetComponent<Building>().ManPowerCost / 2;
+                        PlayerData.minerals += building.GetComponent<Building>().MineralCost / 2;
+
+                        Destroy(building.gameObject); //destroy the gameobject
+                        return;
+                    }
+
+                    //create unit
+                    Transform _unit = UnitParent.GetComponent<UnitParent>().CreateUnit(BuildingStrings[buildingNum].ButtonStrings[i]);
+                    if (_unit != null)
+                    {
+                        unit = Instantiate(_unit) as Transform; //create the building
+                        unit.GetComponent<Unit>().Building = building;
+                        building.GetComponent<Building>().CreatedUnit(unit);
+                        return;
+                    }
+                }
+
+                if (Input.GetKeyUp(KeyCode.Escape)) //escape button
                 {
                     StateGUI = stateGUI.DEFAULT;
                     userControl.GetComponent<UserControl>().EnterDefaultState();
-                    return;
-                }
-
-                if (BuildingStrings[buildingNum].ButtonStrings[i] == "Destroy") //destroy the building
-                {
-                    StateGUI = stateGUI.DEFAULT;
-                    userControl.GetComponent<UserControl>().EnterDefaultState();
-
-                    //give back 50% resources of the building
-                    PlayerData.manPower += building.GetComponent<Building>().ManPowerCost / 2;
-                    PlayerData.minerals += building.GetComponent<Building>().MineralCost / 2;
-
-                    Destroy(building.gameObject); //destroy the gameobject
-                    return;
-                }
-
-                //create unit
-                Transform _unit = UnitParent.GetComponent<UnitParent>().CreateUnit(BuildingStrings[buildingNum].ButtonStrings[i]);
-                if (_unit != null)
-                {
-                    unit = Instantiate(_unit) as Transform; //create the building
-                    unit.position = building.GetComponent<Building>().SpawnPoint.position;
-                    unit.rotation = building.rotation;
-                    return;
+                    hud.GetComponent<HeadsUpDisplay>().EnterDefaultState();
                 }
             }
-
-            if (Input.GetKeyUp(KeyCode.Escape)) //escape button
+        }
+        else //still building, dont display unit buttons
+        {
+            for (int i = 0; i < BuildingStrings[buildingNum].ButtonStrings.Length; i++)
             {
-                StateGUI = stateGUI.DEFAULT;
-                userControl.GetComponent<UserControl>().EnterDefaultState();
+                if (BuildingStrings[buildingNum].ButtonStrings[i] == "Close" || BuildingStrings[buildingNum].ButtonStrings[i] == "Destroy")
+                {
+                    if (GUI.Button(new Rect(menuButtonPos[i, 0], menuButtonPos[i, 1], menuButtonWidth, menuButtonHeight), BuildingStrings[buildingNum].ButtonStrings[i]))
+                    {
+                        if (BuildingStrings[buildingNum].ButtonStrings[i] == "Close") //cancel button pressed
+                        {
+                            StateGUI = stateGUI.DEFAULT;
+                            userControl.GetComponent<UserControl>().EnterDefaultState();
+                            hud.GetComponent<HeadsUpDisplay>().EnterDefaultState();
+                            return;
+                        }
+
+                        if (BuildingStrings[buildingNum].ButtonStrings[i] == "Destroy") //destroy the building
+                        {
+                            StateGUI = stateGUI.DEFAULT;
+                            userControl.GetComponent<UserControl>().EnterDefaultState();
+                            hud.GetComponent<HeadsUpDisplay>().EnterDefaultState();
+
+                            //give back 50% resources of the building
+                            PlayerData.manPower += building.GetComponent<Building>().ManPowerCost / 2;
+                            PlayerData.minerals += building.GetComponent<Building>().MineralCost / 2;
+
+                            Destroy(building.gameObject); //destroy the gameobject
+                            return;
+                        }
+                    }
+
+                    if (Input.GetKeyUp(KeyCode.Escape)) //escape button
+                    {
+                        StateGUI = stateGUI.DEFAULT;
+                        userControl.GetComponent<UserControl>().EnterDefaultState();
+                        hud.GetComponent<HeadsUpDisplay>().EnterDefaultState();
+                    }
+                }
             }
         }
     }
