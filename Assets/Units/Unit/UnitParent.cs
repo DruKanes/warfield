@@ -3,6 +3,9 @@ using System.Collections;
 
 public class UnitParent : MonoBehaviour
 {
+    private enum state { DEFAULT, CLICK_MOVE, CLICK_ATTACK }
+    private state State;
+
     private enum stateGUI { DEFAULT, OPEN }
     private stateGUI StateGUI;
 
@@ -31,6 +34,7 @@ public class UnitParent : MonoBehaviour
     {
         //set states
         StateGUI = stateGUI.DEFAULT;
+        State = state.DEFAULT;
 
         //Menu initialization
         menuWidth = 20 + 20 + menuButtonWidth;
@@ -141,6 +145,43 @@ public class UnitParent : MonoBehaviour
             default:
                 break;
         }
+
+        switch (State)
+        {
+            case state.CLICK_MOVE:
+                MoveUnits();
+                break;
+            case state.CLICK_ATTACK:
+                break;
+            default:
+                break;
+        }
+        
+
+
+
+    }
+
+    /// <summary>
+    /// Move units to target location specified by right click
+    /// </summary>
+    private void MoveUnits()
+    {
+        if (Input.GetButtonDown("Left Click")) //move units to target location
+        {
+            //get the location that was clicked
+            Vector3 target;
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray.origin, ray.direction, out hit))
+            {
+                Debug.DrawLine(ray.origin, hit.point, Color.red);
+                target = new Vector3(hit.point.x, hit.point.y + 5, hit.point.z);
+                unit.GetComponent<Unit>().EnterMovingState(target);
+                State = state.DEFAULT;
+            }
+        }
+
     }
 
     private void UnitMenuGUI()
@@ -152,20 +193,40 @@ public class UnitParent : MonoBehaviour
         {
             if (GUI.Button(new Rect(menuButtonPos[i, 0], menuButtonPos[i, 1], menuButtonWidth, menuButtonHeight), UnitStrings[i]))
             {
-                if (i == UnitStrings.Length - 1) //cancel button pressed
+                if (UnitStrings[i] == "Close") //cancel button pressed
                 {
-                    StateGUI = stateGUI.DEFAULT;
+                    EnterDefaultState();
                     userControl.GetComponent<UserControl>().EnterDefaultState();
                     hud.GetComponent<HeadsUpDisplay>().EnterDefaultState();
+                    return;
+                }
+                if (UnitStrings[i] == "Stop") //stop button pressed
+                {
+                    unit.GetComponent<Unit>().ExitMovingState();
+                    return;
+                }
+                if (UnitStrings[i] == "Move") //move button pressed
+                {
+                    State = state.CLICK_MOVE;
                     return;
                 }
             }         
 
             if (Input.GetKeyUp(KeyCode.Escape)) //escape button
             {
-                StateGUI = stateGUI.DEFAULT;
+                EnterDefaultState();
                 userControl.GetComponent<UserControl>().EnterDefaultState();
                 hud.GetComponent<HeadsUpDisplay>().EnterDefaultState();
+            }
+            if (Input.GetButtonUp("Stop")) //stop button pressed
+            {
+                unit.GetComponent<Unit>().ExitMovingState();
+                return;
+            }
+            if (Input.GetButtonUp("Move")) //move button pressed
+            {
+                State = state.CLICK_MOVE;
+                return;
             }
         }
     }
@@ -176,5 +237,6 @@ public class UnitParent : MonoBehaviour
     public void EnterDefaultState()
     {
         StateGUI = stateGUI.DEFAULT;
+        State = state.DEFAULT;
     }
 }

@@ -115,6 +115,11 @@ public class Unit : MonoBehaviour
         target = _target;
     }
 
+    public void ExitMovingState()
+    {
+        State = state.DEFAULT;
+    }
+
     private void MovingState()
     {
         Vector3 fwd = transform.TransformDirection(Vector3.forward);
