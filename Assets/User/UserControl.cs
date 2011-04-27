@@ -113,13 +113,25 @@ public class UserControl : MonoBehaviour
             default:
                 OverBuilding(); //checks if user clicked a building
                 OverUnit(); //checks if user clicked a unit
+				PauseMenu(); //checks if user paused game
                 break;
         }
     }
 
+	//pauses game 
+	private void PauseMenu()
+	{
+		 if (Input.GetKeyDown(KeyCode.Escape)) //pause the game
+        {
+			//code that actually pauses it and not just opens a menu, careful about switching scenes cause it wont preserve everything.
+			
+		}
+	}
+	
     /// <summary>
     /// Zooms the camera in/out
     /// </summary>
+
     private void ZoomCamera()
     {
         float scrollVal = Input.GetAxis("Mouse ScrollWheel");
