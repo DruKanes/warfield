@@ -3,6 +3,7 @@ using System.Collections;
 
 public class UserControl : MonoBehaviour
 {
+    
     private enum state { DEFAULT, BUILD, BUILD_MENU, BUILDING_MENU, NONE }
     private state State;
 
